@@ -122,6 +122,7 @@ bool Adafruit_AS7343::setBank(bool bank1) {
  * @return true on success
  */
 bool Adafruit_AS7343::powerOn(bool enable) {
+  setBank(false);
   Adafruit_BusIO_Register enable_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_ENABLE);
   Adafruit_BusIO_RegisterBits pon_bit =
@@ -135,6 +136,7 @@ bool Adafruit_AS7343::powerOn(bool enable) {
  * @return true on success
  */
 bool Adafruit_AS7343::enableLowPower(bool enable) {
+  setBank(false);
   Adafruit_BusIO_Register cfg0_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_CFG0);
   Adafruit_BusIO_RegisterBits low_power_bit =
@@ -148,6 +150,7 @@ bool Adafruit_AS7343::enableLowPower(bool enable) {
  * @return true on success
  */
 bool Adafruit_AS7343::setGain(as7343_gain_t gain) {
+  setBank(false);
   Adafruit_BusIO_Register cfg1_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_CFG1);
   Adafruit_BusIO_RegisterBits again_bits =
@@ -160,6 +163,7 @@ bool Adafruit_AS7343::setGain(as7343_gain_t gain) {
  * @return The current gain as as7343_gain_t
  */
 as7343_gain_t Adafruit_AS7343::getGain() {
+  setBank(false);
   Adafruit_BusIO_Register cfg1_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_CFG1);
   Adafruit_BusIO_RegisterBits again_bits =
@@ -173,6 +177,7 @@ as7343_gain_t Adafruit_AS7343::getGain() {
  * @return true on success
  */
 bool Adafruit_AS7343::setATIME(uint8_t atime) {
+  setBank(false);
   Adafruit_BusIO_Register atime_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_ATIME);
   return atime_reg.write(atime);
@@ -183,6 +188,7 @@ bool Adafruit_AS7343::setATIME(uint8_t atime) {
  * @return ATIME value
  */
 uint8_t Adafruit_AS7343::getATIME() {
+  setBank(false);
   Adafruit_BusIO_Register atime_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_ATIME);
   return atime_reg.read();
@@ -194,6 +200,7 @@ uint8_t Adafruit_AS7343::getATIME() {
  * @return true on success
  */
 bool Adafruit_AS7343::setASTEP(uint16_t astep) {
+  setBank(false);
   Adafruit_BusIO_Register astep_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_ASTEP_L, 2, LSBFIRST);
   return astep_reg.write(astep);
@@ -204,6 +211,7 @@ bool Adafruit_AS7343::setASTEP(uint16_t astep) {
  * @return ASTEP value
  */
 uint16_t Adafruit_AS7343::getASTEP() {
+  setBank(false);
   Adafruit_BusIO_Register astep_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_ASTEP_L, 2, LSBFIRST);
   return astep_reg.read();
@@ -226,6 +234,7 @@ float Adafruit_AS7343::getIntegrationTime() {
  * @return true on success
  */
 bool Adafruit_AS7343::setSMUXMode(as7343_smux_mode_t mode) {
+  setBank(false);
   Adafruit_BusIO_Register cfg20_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_CFG20);
   Adafruit_BusIO_RegisterBits auto_smux_bits =
@@ -238,6 +247,7 @@ bool Adafruit_AS7343::setSMUXMode(as7343_smux_mode_t mode) {
  * @return The current SMUX mode as as7343_smux_mode_t
  */
 as7343_smux_mode_t Adafruit_AS7343::getSMUXMode() {
+  setBank(false);
   Adafruit_BusIO_Register cfg20_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_CFG20);
   Adafruit_BusIO_RegisterBits auto_smux_bits =
@@ -250,6 +260,7 @@ as7343_smux_mode_t Adafruit_AS7343::getSMUXMode() {
  * @return true on success
  */
 bool Adafruit_AS7343::startMeasurement() {
+  setBank(false);
   Adafruit_BusIO_Register enable_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_ENABLE);
   Adafruit_BusIO_RegisterBits sp_en_bit =
@@ -262,6 +273,7 @@ bool Adafruit_AS7343::startMeasurement() {
  * @return true on success
  */
 bool Adafruit_AS7343::stopMeasurement() {
+  setBank(false);
   Adafruit_BusIO_Register enable_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_ENABLE);
   Adafruit_BusIO_RegisterBits sp_en_bit =
@@ -274,6 +286,7 @@ bool Adafruit_AS7343::stopMeasurement() {
  * @return true if data is ready to read
  */
 bool Adafruit_AS7343::dataReady() {
+  setBank(false);
   Adafruit_BusIO_Register status2_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_STATUS2);
   Adafruit_BusIO_RegisterBits avalid_bit =
@@ -293,6 +306,7 @@ bool Adafruit_AS7343::dataReady() {
  * @return true on success
  */
 bool Adafruit_AS7343::readAllChannels(uint16_t *readings_buffer) {
+  setBank(false);
   // Determine how many channels based on mode
   as7343_smux_mode_t mode = getSMUXMode();
   uint8_t num_channels = 6;
@@ -319,6 +333,7 @@ bool Adafruit_AS7343::readAllChannels(uint16_t *readings_buffer) {
  * @return The channel reading
  */
 uint16_t Adafruit_AS7343::readChannel(as7343_channel_t channel) {
+  setBank(false);
   // Read ASTATUS to latch data
   Adafruit_BusIO_Register astatus_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_ASTATUS);
@@ -336,6 +351,7 @@ uint16_t Adafruit_AS7343::readChannel(as7343_channel_t channel) {
  * @return true on success
  */
 bool Adafruit_AS7343::enableLED(bool enable) {
+  setBank(false);
   Adafruit_BusIO_Register led_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_LED);
   Adafruit_BusIO_RegisterBits led_act_bit =
@@ -349,6 +365,7 @@ bool Adafruit_AS7343::enableLED(bool enable) {
  * @return true on success
  */
 bool Adafruit_AS7343::setLEDCurrent(uint16_t current_ma) {
+  setBank(false);
   // Clamp to valid range
   if (current_ma < 4) {
     current_ma = 4;
@@ -373,6 +390,7 @@ bool Adafruit_AS7343::setLEDCurrent(uint16_t current_ma) {
  * @return LED current in milliamps
  */
 uint16_t Adafruit_AS7343::getLEDCurrent() {
+  setBank(false);
   Adafruit_BusIO_Register led_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_LED);
   Adafruit_BusIO_RegisterBits led_drive_bits =
@@ -387,6 +405,7 @@ uint16_t Adafruit_AS7343::getLEDCurrent() {
  * @return true on success
  */
 bool Adafruit_AS7343::enableFlickerDetection(bool enable) {
+  setBank(false);
   Adafruit_BusIO_Register enable_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_ENABLE);
   Adafruit_BusIO_RegisterBits fden_bit =
@@ -399,6 +418,7 @@ bool Adafruit_AS7343::enableFlickerDetection(bool enable) {
  * @return Raw FD_STATUS register value
  */
 uint8_t Adafruit_AS7343::getFlickerStatus() {
+  setBank(false);
   Adafruit_BusIO_Register fd_status_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_FD_STATUS);
   return fd_status_reg.read();
@@ -429,6 +449,7 @@ as7343_flicker_t Adafruit_AS7343::getFlickerFrequency() {
  * @return true on success
  */
 bool Adafruit_AS7343::enableSpectralInterrupt(bool enable) {
+  setBank(false);
   Adafruit_BusIO_Register intenab_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_INTENAB);
   Adafruit_BusIO_RegisterBits sp_ien_bit =
@@ -442,6 +463,7 @@ bool Adafruit_AS7343::enableSpectralInterrupt(bool enable) {
  * @return true on success
  */
 bool Adafruit_AS7343::enableFIFOInterrupt(bool enable) {
+  setBank(false);
   Adafruit_BusIO_Register intenab_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_INTENAB);
   Adafruit_BusIO_RegisterBits f_ien_bit =
@@ -455,6 +477,7 @@ bool Adafruit_AS7343::enableFIFOInterrupt(bool enable) {
  * @return true on success
  */
 bool Adafruit_AS7343::enableSystemInterrupt(bool enable) {
+  setBank(false);
   Adafruit_BusIO_Register intenab_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_INTENAB);
   Adafruit_BusIO_RegisterBits sien_bit =
@@ -467,6 +490,7 @@ bool Adafruit_AS7343::enableSystemInterrupt(bool enable) {
  * @return STATUS register value
  */
 uint8_t Adafruit_AS7343::getStatus() {
+  setBank(false);
   Adafruit_BusIO_Register status_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_STATUS);
   return status_reg.read();
@@ -477,6 +501,7 @@ uint8_t Adafruit_AS7343::getStatus() {
  * @return true on success
  */
 bool Adafruit_AS7343::clearStatus() {
+  setBank(false);
   Adafruit_BusIO_Register status_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_STATUS);
   uint8_t status = status_reg.read();
@@ -489,6 +514,7 @@ bool Adafruit_AS7343::clearStatus() {
  * @return true on success
  */
 bool Adafruit_AS7343::setLowThreshold(uint16_t threshold) {
+  setBank(false);
   Adafruit_BusIO_Register th_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_SP_TH_L, 2, LSBFIRST);
   return th_reg.write(threshold);
@@ -500,6 +526,7 @@ bool Adafruit_AS7343::setLowThreshold(uint16_t threshold) {
  * @return true on success
  */
 bool Adafruit_AS7343::setHighThreshold(uint16_t threshold) {
+  setBank(false);
   Adafruit_BusIO_Register th_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_SP_TH_H, 2, LSBFIRST);
   return th_reg.write(threshold);
@@ -510,6 +537,7 @@ bool Adafruit_AS7343::setHighThreshold(uint16_t threshold) {
  * @return 16-bit threshold value
  */
 uint16_t Adafruit_AS7343::getLowThreshold() {
+  setBank(false);
   Adafruit_BusIO_Register th_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_SP_TH_L, 2, LSBFIRST);
   return th_reg.read();
@@ -520,6 +548,7 @@ uint16_t Adafruit_AS7343::getLowThreshold() {
  * @return 16-bit threshold value
  */
 uint16_t Adafruit_AS7343::getHighThreshold() {
+  setBank(false);
   Adafruit_BusIO_Register th_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_SP_TH_H, 2, LSBFIRST);
   return th_reg.read();
@@ -531,6 +560,7 @@ uint16_t Adafruit_AS7343::getHighThreshold() {
  * @return true on success
  */
 bool Adafruit_AS7343::enableWait(bool enable) {
+  setBank(false);
   Adafruit_BusIO_Register enable_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_ENABLE);
   Adafruit_BusIO_RegisterBits wen_bit =
@@ -548,6 +578,7 @@ bool Adafruit_AS7343::enableWait(bool enable) {
  * @return true on success
  */
 bool Adafruit_AS7343::setWaitTime(uint8_t wtime) {
+  setBank(false);
   Adafruit_BusIO_Register wtime_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_WTIME);
   return wtime_reg.write(wtime);
@@ -558,6 +589,7 @@ bool Adafruit_AS7343::setWaitTime(uint8_t wtime) {
  * @return Wait time value
  */
 uint8_t Adafruit_AS7343::getWaitTime() {
+  setBank(false);
   Adafruit_BusIO_Register wtime_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_WTIME);
   return wtime_reg.read();
@@ -573,6 +605,7 @@ uint8_t Adafruit_AS7343::getWaitTime() {
  * @return true on success
  */
 bool Adafruit_AS7343::setPersistence(uint8_t persistence) {
+  setBank(false);
   if (persistence > 15)
     persistence = 15;
   Adafruit_BusIO_Register pers_reg =
@@ -587,6 +620,7 @@ bool Adafruit_AS7343::setPersistence(uint8_t persistence) {
  * @return Persistence value 0-15
  */
 uint8_t Adafruit_AS7343::getPersistence() {
+  setBank(false);
   Adafruit_BusIO_Register pers_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_PERS);
   Adafruit_BusIO_RegisterBits apers_bits =
@@ -642,6 +676,7 @@ uint8_t Adafruit_AS7343::getThresholdChannel() {
  * @return true if analog circuit saturated
  */
 bool Adafruit_AS7343::isAnalogSaturated() {
+  setBank(false);
   Adafruit_BusIO_Register status2_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_STATUS2);
   Adafruit_BusIO_RegisterBits asat_ana_bit =
@@ -654,6 +689,7 @@ bool Adafruit_AS7343::isAnalogSaturated() {
  * @return true if ADC counter saturated
  */
 bool Adafruit_AS7343::isDigitalSaturated() {
+  setBank(false);
   Adafruit_BusIO_Register status2_reg =
       Adafruit_BusIO_Register(i2c_dev, AS7343_STATUS2);
   Adafruit_BusIO_RegisterBits asat_dig_bit =
