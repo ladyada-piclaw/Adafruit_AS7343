@@ -95,6 +95,11 @@ bool Adafruit_AS7343::_init() {
     return false;
   }
 
+  // Configure GPIO as output (signals measurement start by default)
+  if (!setGPIOOutput(true)) {
+    return false;
+  }
+
   return true;
 }
 
@@ -630,6 +635,10 @@ uint8_t Adafruit_AS7343::getThresholdChannel() {
 
 /**
  * @brief Check if analog saturation occurred
+ *
+ * @note This flag may not behave as expected - it can report saturation
+ * even when channel readings appear normal. May need further investigation.
+ *
  * @return true if analog circuit saturated
  */
 bool Adafruit_AS7343::isAnalogSaturated() {
@@ -698,4 +707,96 @@ uint8_t Adafruit_AS7343::getAuxID() {
 
   setBank(false);
   return aux;
+}
+
+/**
+ * @brief Set GPIO to output or input mode
+ * @param enable true for output mode, false for input mode
+ * @return true on success
+ */
+bool Adafruit_AS7343::setGPIOOutput(bool enable) {
+  if (!setBank(true)) {
+    return false;
+  }
+
+  Adafruit_BusIO_Register gpio_reg =
+      Adafruit_BusIO_Register(i2c_dev, AS7343_GPIO);
+  uint8_t val = gpio_reg.read();
+
+  if (enable) {
+    val &= ~(1 << 2);
+  } else {
+    val |= (1 << 2);
+  }
+
+  bool result = gpio_reg.write(val);
+  setBank(false);
+  return result;
+}
+
+/**
+ * @brief Set GPIO output state when in output mode
+ * @param high true for high output, false for low
+ * @return true on success
+ */
+bool Adafruit_AS7343::setGPIOValue(bool high) {
+  if (!setBank(true)) {
+    return false;
+  }
+
+  Adafruit_BusIO_Register gpio_reg =
+      Adafruit_BusIO_Register(i2c_dev, AS7343_GPIO);
+  uint8_t val = gpio_reg.read();
+
+  if (high) {
+    val |= (1 << 1);
+  } else {
+    val &= ~(1 << 1);
+  }
+
+  bool result = gpio_reg.write(val);
+  setBank(false);
+  return result;
+}
+
+/**
+ * @brief Get GPIO input/output state
+ * @return true if GPIO reads high
+ */
+bool Adafruit_AS7343::getGPIOValue() {
+  if (!setBank(true)) {
+    return false;
+  }
+
+  Adafruit_BusIO_Register gpio_reg =
+      Adafruit_BusIO_Register(i2c_dev, AS7343_GPIO);
+  uint8_t val = gpio_reg.read();
+
+  setBank(false);
+  return (val & (1 << 0)) != 0;
+}
+
+/**
+ * @brief Invert GPIO polarity
+ * @param invert true to invert GPIO polarity
+ * @return true on success
+ */
+bool Adafruit_AS7343::setGPIOInverted(bool invert) {
+  if (!setBank(true)) {
+    return false;
+  }
+
+  Adafruit_BusIO_Register gpio_reg =
+      Adafruit_BusIO_Register(i2c_dev, AS7343_GPIO);
+  uint8_t val = gpio_reg.read();
+
+  if (invert) {
+    val |= (1 << 3);
+  } else {
+    val &= ~(1 << 3);
+  }
+
+  bool result = gpio_reg.write(val);
+  setBank(false);
+  return result;
 }

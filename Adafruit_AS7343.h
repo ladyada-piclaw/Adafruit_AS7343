@@ -38,12 +38,12 @@
 #define AS7343_CHIP_ID 0x81         ///< AS7343 part ID
 
 // Register addresses (REG_BANK = 1 for 0x58-0x66)
-#define AS7343_AUXID 0x58  ///< Auxiliary ID
-#define AS7343_REVID 0x59  ///< Revision ID
-#define AS7343_ID 0x5A     ///< Part ID register
-#define AS7343_CFG10 0x65  ///< FD_PERS configuration
-#define AS7343_CFG12 0x66  ///< SP_TH_CH configuration
-#define AS7343_GPIO 0x6B   ///< GPIO control register
+#define AS7343_AUXID 0x58 ///< Auxiliary ID
+#define AS7343_REVID 0x59 ///< Revision ID
+#define AS7343_ID 0x5A    ///< Part ID register
+#define AS7343_CFG10 0x65 ///< FD_PERS configuration
+#define AS7343_CFG12 0x66 ///< SP_TH_CH configuration
+#define AS7343_GPIO 0x6B  ///< GPIO control register
 
 // Register addresses (REG_BANK = 0 for 0x80+)
 #define AS7343_ENABLE 0x80       ///< Main enable register
@@ -116,16 +116,16 @@ typedef enum {
  * Index matches the order data appears in 18-channel auto_smux mode
  */
 typedef enum {
-  AS7343_CHANNEL_FZ = 0,       ///< 450nm (blue)
-  AS7343_CHANNEL_FY = 1,       ///< 555nm (yellow-green)
-  AS7343_CHANNEL_FXL = 2,      ///< 600nm (orange)
-  AS7343_CHANNEL_NIR = 3,      ///< 855nm (near-IR)
-  AS7343_CHANNEL_VIS_TL_0 = 4, ///< Clear (top-left) cycle 1
-  AS7343_CHANNEL_VIS_BR_0 = 5, ///< Clear (both-right) cycle 1
-  AS7343_CHANNEL_F2 = 6,       ///< 425nm (violet-blue)
-  AS7343_CHANNEL_F3 = 7,       ///< 475nm (blue-cyan)
-  AS7343_CHANNEL_F4 = 8,       ///< 515nm (green)
-  AS7343_CHANNEL_F6 = 9,       ///< 640nm (red)
+  AS7343_CHANNEL_FZ = 0,        ///< 450nm (blue)
+  AS7343_CHANNEL_FY = 1,        ///< 555nm (yellow-green)
+  AS7343_CHANNEL_FXL = 2,       ///< 600nm (orange)
+  AS7343_CHANNEL_NIR = 3,       ///< 855nm (near-IR)
+  AS7343_CHANNEL_VIS_TL_0 = 4,  ///< Clear (top-left) cycle 1
+  AS7343_CHANNEL_VIS_BR_0 = 5,  ///< Clear (both-right) cycle 1
+  AS7343_CHANNEL_F2 = 6,        ///< 425nm (violet-blue)
+  AS7343_CHANNEL_F3 = 7,        ///< 475nm (blue-cyan)
+  AS7343_CHANNEL_F4 = 8,        ///< 515nm (green)
+  AS7343_CHANNEL_F6 = 9,        ///< 640nm (red)
   AS7343_CHANNEL_VIS_TL_1 = 10, ///< Clear (top-left) cycle 2
   AS7343_CHANNEL_VIS_BR_1 = 11, ///< Clear (both-right) cycle 2
   AS7343_CHANNEL_F1 = 12,       ///< 405nm (violet)
@@ -218,6 +218,12 @@ public:
   uint8_t getPartID();
   uint8_t getRevisionID();
   uint8_t getAuxID();
+
+  // GPIO control
+  bool setGPIOOutput(bool enable);   // true = output mode, false = input mode
+  bool setGPIOValue(bool high);      // Set output state when in output mode
+  bool getGPIOValue();               // Read GPIO input/output state
+  bool setGPIOInverted(bool invert); // Invert GPIO polarity
 
 protected:
   virtual bool _init();
