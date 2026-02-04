@@ -1,0 +1,23 @@
+name: Arduino Library CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install Arduino CI
+        run: |
+          pip install adafruit-nrfutil
+          wget https://raw.githubusercontent.com/adafruit/ci-arduino/master/ci-arduino.py -O ci-arduino.py
+
+      - name: Run CI
+        run: python ci-arduino.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
