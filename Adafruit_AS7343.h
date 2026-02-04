@@ -214,6 +214,10 @@ public:
   bool isAnalogSaturated();
   bool isDigitalSaturated();
 
+  // Auto-zero configuration
+  bool setAutoZeroFrequency(uint8_t frequency);
+  uint8_t getAutoZeroFrequency();
+
   // Chip info
   uint8_t getPartID();
   uint8_t getRevisionID();
