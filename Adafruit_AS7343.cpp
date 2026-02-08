@@ -632,6 +632,11 @@ uint8_t Adafruit_AS7343::getPersistence() {
  * @brief Set which ADC channel is used for threshold interrupts
  * @param channel ADC channel 0-5
  * @return true on success
+ * @note Hardware testing shows this register does NOT affect threshold
+ *       comparison or persistence - comparison is always on CH0 regardless
+ *       of this setting. The datasheet claims SP_TH_CH controls the
+ *       persistence filter channel, but this behavior is not observed.
+ *       Register read/write works correctly; the value just has no effect.
  */
 bool Adafruit_AS7343::setThresholdChannel(uint8_t channel) {
   if (channel > 5)
@@ -653,6 +658,8 @@ bool Adafruit_AS7343::setThresholdChannel(uint8_t channel) {
 /**
  * @brief Get the current threshold channel
  * @return ADC channel 0-5
+ * @note See setThresholdChannel() - this register has no observed effect
+ *       on threshold comparison behavior.
  */
 uint8_t Adafruit_AS7343::getThresholdChannel() {
   setBank(true);
