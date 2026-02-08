@@ -133,6 +133,8 @@ void setup() {
   Serial.print(F("Persistence: "));
   Serial.println(as7343.getPersistence());
 
+  // NOTE: Threshold channel register r/w works but has no observed effect
+  // on threshold comparison - comparison is always on CH0 regardless.
   as7343.setThresholdChannel(0);
   Serial.print(F("Threshold Channel: "));
   Serial.println(as7343.getThresholdChannel());
