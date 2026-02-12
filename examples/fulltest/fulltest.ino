@@ -101,7 +101,6 @@ void setup() {
   // === SMUX Configuration ===
   Serial.println(F("\n--- SMUX Configuration ---"));
 
-  as7343.setSMUXMode(AS7343_SMUX_18CH);
   Serial.print(F("Mode: "));
   switch (as7343.getSMUXMode()) {
   case AS7343_SMUX_6CH:
@@ -118,45 +117,12 @@ void setup() {
     break;
   }
 
-  // === Wait Time Configuration ===
-  Serial.println(F("\n--- Wait Time Configuration ---"));
-
-  as7343.setWaitTime(100);
-  Serial.print(F("Wait Time: "));
-  Serial.print(as7343.getWaitTime());
-  Serial.println(F(" (disabled by default)"));
-
-  // === Interrupt Configuration ===
-  Serial.println(F("\n--- Interrupt Configuration ---"));
-
-  as7343.setPersistence(4);
-  Serial.print(F("Persistence: "));
-  Serial.println(as7343.getPersistence());
-
-  // NOTE: Threshold channel register r/w works but has no observed effect
-  // on threshold comparison - comparison is always on CH0 regardless.
-  as7343.setThresholdChannel(0);
-  Serial.print(F("Threshold Channel: "));
-  Serial.println(as7343.getThresholdChannel());
-
-  as7343.setLowThreshold(100);
-  Serial.print(F("Low Threshold: "));
-  Serial.println(as7343.getLowThreshold());
-
-  as7343.setHighThreshold(60000);
-  Serial.print(F("High Threshold: "));
-  Serial.println(as7343.getHighThreshold());
-
   // === LED Driver Configuration ===
-  Serial.println(F("\n--- LED Driver Configuration ---"));
-
-  as7343.setLEDCurrent(20);
+  Serial.println(F("\n--- LED Driver ---"));
   Serial.print(F("LED Current: "));
   Serial.print(as7343.getLEDCurrent());
   Serial.println(F(" mA"));
-
-  Serial.print(F("LED: "));
-  Serial.println(F("Off (use enableLED(true) to turn on)"));
+  Serial.println(F("LED: Off (use enableLED(true) to turn on)"));
 
   // === Start continuous reading ===
   Serial.println(F("\n--- Spectral Readings ---"));
@@ -164,8 +130,6 @@ void setup() {
                    "F3=475nm, F4=515nm, F5=550nm,"));
   Serial.println(
       F("FY=555nm, FXL=600nm, F6=640nm, F7=690nm, F8=745nm, NIR=855nm\n"));
-
-  delay(200); // Let sensor stabilize
 }
 
 void loop() {
