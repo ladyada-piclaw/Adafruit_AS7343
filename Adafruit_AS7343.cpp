@@ -115,6 +115,9 @@ bool Adafruit_AS7343::_init() {
     return false;
   }
 
+  // Ensure LED is off — stale state or power-on defaults may leave it enabled
+  enableLED(false);
+
   return true;
 }
 
