@@ -335,13 +335,8 @@ bool Adafruit_AS7343::readAllChannels(uint16_t *readings_buffer) {
     num_channels = 18;
   }
 
-  // Full reset sequence: stop measurement, disable spectral engine,
-  // re-write SMUX config to reset the cycle state machine, clear status
+  // Stop any in-progress measurement and clear stale status
   stopMeasurement();
-  delay(1);
-
-  // Re-write auto_smux to force SMUX state machine reset
-  setSMUXMode(mode);
 
   // Clear any pending status
   Adafruit_BusIO_Register status_reg =
